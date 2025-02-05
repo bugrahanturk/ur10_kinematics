@@ -1,7 +1,19 @@
 # ur10 6 DOF Kinematics
 
-## Installation 
+## Project Description
+This project focuses on the forward and inverse kinematics calculations of a 6 Degrees of Freedom (DOF) UR10 robotic arm. The project enables users to compute and verify the end-effector's position and orientation using both forward and inverse kinematics methodologies. The calculations are validated in a Gazebo simulation environment using ROS (Robot Operating System).
 
+- Key features of this project include:
+
+- Forward kinematics computations based on homogeneous transformation matrices.
+
+- Inverse kinematics calculations for trajectory planning and control.
+
+- Real-time simulation and verification using ROS and Gazebo.
+
+- Implementation of joint motion control for smooth robotic movements.
+
+## Installation 
 ## Prerequisites
 Before proceeding with the installation, ensure that the necessary dependencies are installed:
 ```
