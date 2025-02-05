@@ -1,72 +1,99 @@
-# ur10 6 DOF Kinematik
+# ur10 6 DOF Kinematics
 
-## Kurulum 
-- Simülasyon dünyasını yüklemek için:
+## Installation 
+
+## Prerequisites
+Before proceeding with the installation, ensure that the necessary dependencies are installed:
 ```
-cd ~/robotlar_ws/src
-git clone https://gitlab.com/blm6191_2425b/blm6191/gazebo_plugins_rtg.git
-cd ~/robotlar_ws
+sudo apt update
+sudo apt install ros-noetic-roscpp ros-noetic-nav-msgs ros-noetic-std-msgs
+```
+
+To install the simulation world:
+```
+git clone https://github.com/bugrahanturk/ur10_kinematics.git
+mkdir -p gazebo_plugins_rtg/src
+cd ur10_kinematics*
+mv gazebo_plugins_rtg ../gazebo_plugins_rtg/src
+cd ../gazebo_plugins_rtg
 rosdep install -a
 catkin_make
 source ~/.bashrc
-cp -r ~/robotlar_ws/src/gazebo_plugins_rtg/models/ur10 ~/.gazebo/models
+cp -r src/gazebo_plugins_rtg/models/ur10 ~/.gazebo/models
+source devel/setup.bash
 ```
 
-- Simülasyon ortamını başlatma:
+To start the simulation world (UR10):
 ```
 roslaunch gazebo_plugins_rtg ur10.launch
 ```
 
-- ur10_6dof_kinematics projesini yükleme:
+To install ur10_kinematics:
 ```
-git clone https://gitlab.com/blm6191_2425b/members/23501021/blm6191-robotlar-odev-2
-cd ur10_6dof_kinematics
-catkin build
+cd ur10_kinematics*
+mkdir src 
+mv ur10_kinematics src
+catkin_make
+source devel/setup.bash
 ```
 
-- İleri kinematik hesabı ile end-effector'ün hareketini incelemek için:
+For observing the end-effector pose using forward kinematics:
 ```
 rosrun ur10_6dof_kinematics forward_kinematics
 ```
 
-- Ters kinematik hesabı ile end-effector'ün hareketini incelemek için(örnek 0.8 0.1 2.5 0.1 0.8 2.8):
+To study the motion of the end-effector by inverse kinematics calculation (example 0.8 0.1 2.5 0.1 0.8 2.8):
 ```
 rosrun ur10_6dof_kinematics inverse_kinematics 0.8 0.1 2.5 0.1 0.8 2.8
 ```
 
-### İleri Kinematik
-İleri kinematik hesaplamalarında soruda verilen robotik kola uygun bir şekilde, 6 eklem için rotasyon matrisleri çıkarılmıştır. Yapılan hesaplamalar sonucunda teorik hesabın doğruluğu simülasyondan alınan odometri mesaj bilgisi ile doğrulanarak kanıtlanmıştır.
+### Forward Kinematics
+In advanced kinematics calculations, homogeneous rotation matrices for 6 joints were extracted in accordance with the robotic arm given in the question. As a result of the calculations, the accuracy of the theoretical calculation was proved by verifying the accuracy of the theoretical calculation with the odometry message information obtained from the simulation.
+
+### Example Outputs
+
+Expected output:
+
+Theoretical Position
+
+Theoretical Orientation Matrix
+
 
 <p align="center">
 <img src="ur10_6dof_kinematics/imgs/soru1_1.png" width="274"/>
 </p>
   
 
-### Ters Kinematik
-Ters kinematik hesaplamaları sonucunda elde edilen eklem açıları, ileri kinematik hesaplamaları kullanılarak test edilmiştir. Bu testlerde, ters kinematik ile hesaplanan eklem açıları ileri kinematik fonksiyonuna verilmiş ve uç efektörün (end-effector) hedef pozisyonlara doğru bir şekilde ulaşıp ulaşmadığı kontrol edilmiştir.
+### Inverse Kinematics
+The joint angles obtained from inverse kinematics calculations were tested using forward kinematics calculations. In these tests, the joint angles calculated by inverse kinematics are given to the forward kinematics function and it is checked whether the end-effector reaches the target positions correctly.
 
-Simülasyon ortamında yapılan bu testler sonucunda, ters kinematik hesaplamalarıyla elde edilen açıların, uç efektörün hedef pozisyonlara tam olarak ulaşmasını sağladığı doğrulanmıştır. Böylece, hem ters kinematik hem de ileri kinematik hesaplamalarının doğruluğu test edilerek robotun pozisyonlama doğruluğu başarılı bir şekilde doğrulanmıştır.
+As a result of these tests in the simulation environment, it was confirmed that the angles obtained by inverse kinematics calculations ensure that the end-effector reaches the target positions exactly. Thus, by testing the accuracy of both inverse kinematics and forward kinematics calculations, the positioning accuracy of the robot was successfully verified.
 
-- 1) Test = P0(0.8, 0.7, 2.2) - P1(0.1, 0.8, 2.8) 
+1) Test = P0(0.8, 0.7, 2.2) - P1(0.1, 0.8, 2.8)
+<p align="center">
 <img src="ur10_6dof_kinematics/imgs/inverse_kinematics.gif" width="574"/>
-<img src="ur10_6dof_kinematics/imgs/soru_2_1.png" width="584" height="237"/>
+<img src="ur10_6dof_kinematics/imgs/soru_2_1.png" width="584"/>
 
-- 2) Test = P0(0.4, 0.4, 2.2) - P1(0.8, 0.8, 2.5) 
+3) Test = P0(0.4, 0.4, 2.2) - P1(0.8, 0.8, 2.5)
+<p align="center">
 <img src="ur10_6dof_kinematics/imgs/inverse_kinematics_2.gif" width="574"/>
-<img src="ur10_6dof_kinematics/imgs/soru_2_2.png" width="584" height="237"/>
+<img src="ur10_6dof_kinematics/imgs/soru_2_2.png" width="584" />
 
-- 3) Test = P0(0.8, 0.1, 2.5) - P1(0.1, 0.8, 2.8) 
+5) Test = P0(0.8, 0.1, 2.5) - P1(0.1, 0.8, 2.8)
+<p align="center">
 <img src="ur10_6dof_kinematics/imgs/inverse_kinematics_3.gif" width="574"/>
-<img src="ur10_6dof_kinematics/imgs/soru_2_3.png" width="584" height="237"/>
+<img src="ur10_6dof_kinematics/imgs/soru_2_3.png" width="584"/>
 
-#### Ters Kinematik Doğrulama
-Test 3'te elde edilen açılar kullanılarak foward kinematik node'unda test edilmiştir. Kullanılan açı değerleri ve elde edilen robot kolun pozisyonu aşağıdaki görsellerde görülmektedir. Robotun başlangıç ve bitiş pozisyonundaki açı değerleri kullanılmıştır. Bir üstteki gif'in başladığı ve bittiği konum incelenerek aşağıdaki sonuçlar teyit edilebilmektedir. 
+#### Inverse Kinematic Verification
+The angles obtained in Test 3 were tested in the foward kinematics node. The angle values used and the position of the robot arm obtained are shown in the images below. The angle values at the start and end position of the robot were used. The following results can be confirmed by examining the starting and ending position of the gif above. 
 
-- Başlangıç 
+Start 
+<p align="center">
 <img src="ur10_6dof_kinematics/imgs/soru_2_4.png" width="574"/>
-<img src="ur10_6dof_kinematics/imgs/soru_2_4_1.png" width="584" height="237"/>
+<img src="ur10_6dof_kinematics/imgs/soru_2_4_1.png" width="574"/>
 
-- Bitiş
+Finish
+<p align="center">
 <img src="ur10_6dof_kinematics/imgs/soru_2_5.png" width="574"/>
-<img src="ur10_6dof_kinematics/imgs/soru_2_5_1.png" width="584" height="237"/>
+<img src="ur10_6dof_kinematics/imgs/soru_2_5_1.png" width="574"/>
 
